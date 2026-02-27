@@ -1,0 +1,7 @@
+__pycache__/
+*.pkl
+.env
+.DS_Store
+*.webm
+*.wav
+chroma_db/
