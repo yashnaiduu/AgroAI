@@ -84,7 +84,7 @@ export default function CropPredictor() {
                                     type="number"
                                     value={formData[nutrient]}
                                     onChange={(e) => setFormData({ ...formData, [nutrient]: e.target.value })}
-                                    className="w-full bg-muted border border-border rounded-lg px-3 py-2 text-center text-green-400 font-mono focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all"
+                                    className="w-full bg-muted/40 dark:bg-muted/20 backdrop-blur-md border border-border/50 rounded-lg px-3 py-2 text-center text-green-400 font-mono focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all"
                                     placeholder="0"
                                 />
                             </div>

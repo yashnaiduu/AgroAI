@@ -61,7 +61,7 @@ export default function CustomSelect({
             <button
                 type="button"
                 onClick={() => setOpen((prev) => !prev)}
-                className={`w-full flex items-center justify-between gap-2 bg-muted border border-border rounded-xl px-4 py-3 text-sm text-foreground transition-all outline-none hover:border-border/80 ${open ? `ring-1 ring-border` : ""}`}
+                className={`w-full flex items-center justify-between gap-2 bg-muted/40 dark:bg-muted/20 backdrop-blur-md border border-border/50 rounded-xl px-4 py-3 text-sm text-foreground transition-all outline-none hover:border-border/80 ${open ? `ring-1 ring-border` : ""}`}
             >
                 <span className={selectedOption ? "text-foreground" : "text-muted-foreground"}>
                     {selectedOption?.label ?? placeholder}
@@ -78,7 +78,7 @@ export default function CustomSelect({
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -6, scale: 0.97 }}
                         transition={{ duration: 0.14, ease: "easeOut" }}
-                        className="absolute z-50 top-full mt-2 w-full min-w-[160px] bg-card border border-border rounded-xl shadow-2xl overflow-hidden"
+                        className="absolute z-50 top-full mt-2 w-full min-w-[160px] bg-card/80 dark:bg-card/40 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl overflow-hidden"
                     >
                         <div className="max-h-56 overflow-y-auto py-1.5 scrollbar-thin scrollbar-thumb-border">
                             {options.map((opt) => {

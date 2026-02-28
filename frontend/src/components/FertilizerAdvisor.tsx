@@ -165,7 +165,7 @@ export default function FertilizerAdvisor() {
                                     name={nutrient}
                                     value={formData[nutrient]}
                                     onChange={handleChange}
-                                    className="w-full bg-muted border border-border rounded-lg px-3 py-3 text-center text-teal-400 font-mono focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all"
+                                    className="w-full bg-muted/40 dark:bg-muted/20 backdrop-blur-md border border-border/50 rounded-lg px-3 py-3 text-center text-teal-400 font-mono focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all"
                                     placeholder="0"
                                 />
                             </div>
