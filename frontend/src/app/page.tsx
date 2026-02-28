@@ -41,7 +41,7 @@ export default function Home() {
               </div>
             </div>
             <div className="flex flex-col justify-center">
-              <span className="font-extrabold text-[22px] tracking-wide text-[#2dd482] leading-none mb-0.5">AgroAI</span>
+              <span className="font-extrabold text-[22px] tracking-wide text-[#2dd482] leading-none mb-1">AgroAI</span>
               <span className="text-[9px] font-bold text-[#63e6a7] tracking-[0.22em] ml-0.5 uppercase leading-none">Smart Farming</span>
             </div>
           </button>
@@ -110,7 +110,7 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="flex flex-col justify-center">
-                      <span className="font-extrabold text-[19px] tracking-wide text-[#2dd482] leading-none mb-0.5">AgroAI</span>
+                      <span className="font-extrabold text-[19px] tracking-wide text-[#2dd482] leading-none mb-1">AgroAI</span>
                       <span className="text-[8px] font-bold text-[#63e6a7] tracking-[0.22em] ml-0.5 uppercase leading-none">Smart Farming</span>
                     </div>
                   </div>

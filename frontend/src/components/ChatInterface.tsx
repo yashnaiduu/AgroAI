@@ -173,22 +173,17 @@ export default function ChatInterface() {
 
             stopAudio(); // Stop any existing audio before starting new
 
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 8000); // 8s TTS timeout
-
-            const res = await fetch(url, { signal: controller.signal });
-            clearTimeout(timeout);
-
-            if (!res.ok) throw new Error(`TTS server returned ${res.status}`);
-
-            const blob = await res.blob();
-            if (blob.size < 100) throw new Error("Empty audio blob received");
-
-            const objectUrl = URL.createObjectURL(blob);
-            const audio = new Audio(objectUrl);
+            const audio = new Audio(url);
             audio.playbackRate = 1.1;
             audio.preservesPitch = true;
-            audio.onended = () => URL.revokeObjectURL(objectUrl);
+
+            // Wait for audio stream to begin
+            await new Promise((resolve, reject) => {
+                audio.oncanplay = resolve;
+                audio.onerror = reject;
+                setTimeout(() => reject(new Error("Audio streaming timeout")), 5000);
+            });
+
             audioPlayerRef.current = audio;
             await audio.play();
             return; // EXIT HERE so it doesn't fall through to fallback
