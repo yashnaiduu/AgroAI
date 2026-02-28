@@ -379,17 +379,15 @@ async def _build_tts_response(text: str, language: str) -> StreamingResponse:
 
     try:
         import edge_tts
-        import io
         
-        communicate = edge_tts.Communicate(text_to_speak, voice)
-        audio_stream = io.BytesIO()
-        async for chunk in communicate.stream():
-            if chunk["type"] == "audio":
-                audio_stream.write(chunk["data"])
-        
-        audio_stream.seek(0)
+        async def audio_generator():
+            communicate = edge_tts.Communicate(text_to_speak, voice)
+            async for chunk in communicate.stream():
+                if chunk["type"] == "audio":
+                    yield chunk["data"]
+
         return StreamingResponse(
-            audio_stream,
+            audio_generator(),
             media_type="audio/mpeg",
             headers={"Cache-Control": "no-store", "Content-Disposition": "inline"}
         )
