@@ -172,6 +172,20 @@ export default function SettingsPanel() {
                     </div>
                 </div>
 
+                <div className="mt-8 text-center pb-6">
+                    <p className="text-xs text-muted-foreground">
+                        Developed by{" "}
+                        <a
+                            href="https://www.linkedin.com/in/yash-naidu-b08055219"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-medium text-green-600 dark:text-green-500 hover:text-green-500 dark:hover:text-green-400 transition-colors underline underline-offset-2"
+                        >
+                            Yash Naidu
+                        </a>
+                    </p>
+                </div>
+
             </div>
         </div>
     );
