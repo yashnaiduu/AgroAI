@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Glow filter -->
+  <defs>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Stem -->
+  <path d="M50 80 L50 45" stroke="#22c55e" stroke-width="5" stroke-linecap="round" filter="url(#glow)"/>
+
+  <!-- Left leaf -->
+  <path d="M50 60 C40 55 28 48 30 35 C32 28 42 28 48 38 L50 45" fill="#16a34a" stroke="#22c55e" stroke-width="1.5" stroke-linejoin="round" filter="url(#glow)"/>
+
+  <!-- Right leaf -->
+  <path d="M50 52 C60 47 72 38 70 26 C68 19 58 19 52 29 L50 36" fill="#15803d" stroke="#22c55e" stroke-width="1.5" stroke-linejoin="round" filter="url(#glow)"/>
+
+  <!-- Top sprout -->
+  <path d="M50 45 C50 30 42 20 50 12 C58 20 50 30 50 45" fill="#4ade80" stroke="#22c55e" stroke-width="1.5" stroke-linejoin="round" filter="url(#glow)"/>
+
+  <!-- Soil/base -->
+  <path d="M32 82 Q50 76 68 82 Q60 92 50 90 Q40 92 32 82Z" fill="#166534" filter="url(#glow)"/>
+  <path d="M28 84 Q50 80 72 84" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" filter="url(#glow)"/>
+</svg>

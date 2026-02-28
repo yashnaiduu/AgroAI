@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
 import axios from "axios";
 import { motion } from "framer-motion";
 import ReactMarkdown from 'react-markdown';
@@ -284,8 +283,7 @@ export default function ChatInterface() {
                 {messages.length === 1 ? (
                     <div className="h-full flex flex-col items-center justify-center p-8 text-center max-w-2xl mx-auto mt-[-5vh]">
                         <div className="w-28 h-28 flex items-center justify-center mb-6 relative overflow-hidden rounded-3xl">
-                            <Image src="/logo.png" alt="AgroAI" fill className="object-contain hidden dark:block drop-shadow-[0_0_15px_rgba(34,197,94,0.4)] scale-110" />
-                            <Image src="/logo-light.png" alt="AgroAI" fill className="object-contain dark:hidden scale-110" />
+                            <img src="/logo.svg" alt="AgroAI" className="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(34,197,94,0.4)] scale-110" />
                         </div>
                         <h2 className="text-4xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500 tracking-tight">AgroAI</h2>
                         <p className="text-muted-foreground mb-8 max-w-md">I am AgroAI, your intelligent farming assistant. I can answer questions about crops, soil, pests, and government schemes.</p>
@@ -324,8 +322,7 @@ export default function ChatInterface() {
                                 >
                                     {msg.role === "user" ? <User className="w-5 h-5 text-foreground" /> : (
                                         <>
-                                            <Image src="/logo.png" alt="AI" fill className="object-contain hidden dark:block drop-shadow-[0_0_5px_rgba(34,197,94,0.5)] scale-125" />
-                                            <Image src="/logo-light.png" alt="AI" fill className="object-contain dark:hidden scale-125" />
+                                            <img src="/logo.svg" alt="AI" className="absolute inset-0 w-full h-full object-contain drop-shadow-[0_0_5px_rgba(34,197,94,0.5)] scale-125" />
                                         </>
                                     )}
                                 </div>
@@ -374,8 +371,7 @@ export default function ChatInterface() {
                         {isLoading && (
                             <div className="flex gap-4">
                                 <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center relative overflow-hidden">
-                                    <Image src="/logo.png" alt="AI" fill className="object-contain hidden dark:block drop-shadow-[0_0_5px_rgba(34,197,94,0.5)] animate-pulse scale-125" />
-                                    <Image src="/logo-light.png" alt="AI" fill className="object-contain dark:hidden animate-pulse scale-125" />
+                                    <img src="/logo.svg" alt="AI" className="w-full h-full object-contain drop-shadow-[0_0_5px_rgba(34,197,94,0.5)] animate-pulse scale-125" />
                                 </div>
                                 <div className="text-muted-foreground px-2 py-3.5 flex items-center gap-2">
                                     <div className="flex gap-1">

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Hexagon, Activity, Dna, SlidersHorizontal, Map as MapIcon, Menu, X } from "lucide-react";
 
@@ -57,8 +56,7 @@ export default function Home() {
             <div className="relative flex-shrink-0">
               <div className="absolute inset-0 rounded-2xl bg-emerald-500/20 blur-md" />
               <div className="relative w-14 h-14 flex items-center justify-center overflow-hidden rounded-2xl border border-emerald-500/30 shadow-[0_0_18px_4px_rgba(34,197,94,0.35)]">
-                <Image src="/logo.png" alt="AgroAI Logo" fill className="object-contain hidden dark:block" />
-                <Image src="/logo-light.png" alt="AgroAI Logo" fill className="object-contain dark:hidden" />
+                <img src="/logo.svg" alt="AgroAI Logo" className="w-full h-full object-contain" />
               </div>
             </div>
             <div className="flex flex-col">
@@ -120,8 +118,7 @@ export default function Home() {
           </button>
           <div className="font-semibold text-lg flex items-center gap-2">
             <div className="w-6 h-6 relative">
-              <Image src="/logo.png" alt="AgroAI" fill className="object-contain hidden dark:block" />
-              <Image src="/logo-light.png" alt="AgroAI" fill className="object-contain dark:hidden" />
+              <img src="/logo.svg" alt="AgroAI" className="w-full h-full object-contain" />
             </div>
             AgroAI
           </div>
