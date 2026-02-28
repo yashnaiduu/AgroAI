@@ -371,7 +371,7 @@ export default function ChatInterface() {
                                         setInput(q);
                                         setTimeout(() => handleSend(q), 50);
                                     }}
-                                    className="text-left p-3 md:p-4 rounded-xl text-sm text-foreground bg-secondary hover:bg-muted border border-border transition-colors leading-snug"
+                                    className="text-left p-3 md:p-4 rounded-xl text-sm text-foreground bg-secondary/80 hover:bg-muted border border-green-500/30 hover:border-green-500/60 hover:shadow-[0_0_12px_rgba(34,197,94,0.15)] transition-all leading-snug"
                                 >
                                     {q}
                                 </button>
