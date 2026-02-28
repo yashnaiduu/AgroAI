@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "AgroAI",
   description: "A professional AI assistant for modern agriculture.",
+  icons: {
+    icon: '/favicon.ico?v=2',
+  },
 };
 
 import { Toaster } from "react-hot-toast";
