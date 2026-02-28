@@ -31,6 +31,7 @@ export default function ChatInterface() {
     const [translateText, setTranslateText] = useState(true);
     const [langOpen, setLangOpen] = useState(false);
     const langRef = useRef<HTMLDivElement>(null);
+    const abortControllerRef = useRef<AbortController | null>(null);
 
     useEffect(() => {
         const handler = (e: MouseEvent) => {
@@ -39,7 +40,12 @@ export default function ChatInterface() {
             }
         };
         document.addEventListener("mousedown", handler);
-        return () => document.removeEventListener("mousedown", handler);
+        return () => {
+            document.removeEventListener("mousedown", handler);
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+        };
     }, []);
 
     const [isRecording, setIsRecording] = useState(false);
@@ -172,6 +178,13 @@ export default function ChatInterface() {
             audioPlayerRef.current.pause();
         }
 
+        // Cancel any existing request
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+        }
+
+        abortControllerRef.current = new AbortController();
+
         const userMessage: Message = { id: Date.now().toString(), role: "user", content: textToSend };
         setMessages((prev) => [...prev, userMessage]);
 
@@ -183,6 +196,9 @@ export default function ChatInterface() {
                 message: userMessage.content,
                 language: language,
                 translate_text: translateText,
+            }, {
+                timeout: 15000, // 15 seconds strict timeout
+                signal: abortControllerRef.current.signal
             });
 
             const replyText = response.data.reply;
@@ -194,15 +210,31 @@ export default function ChatInterface() {
             setMessages((prev) => [...prev, botMessage]);
             playTTS(replyText);
 
-        } catch (error) {
+        } catch (error: any) {
+            if (axios.isCancel(error)) {
+                console.log("Request canceled", error.message);
+                return;
+            }
+
             console.error("Chat error:", error);
-            toast.error("Connection failed. Please check your network or backend server.");
+
+            let errorMessage = "Connection failed. Please check your network or backend server.";
+            if (error.code === 'ECONNABORTED') {
+                errorMessage = "Request timed out. The server is taking too long to respond.";
+            } else if (error.code === 'ERR_NETWORK') {
+                errorMessage = "Network Error: Cannot reach the AgroAI server. Is it running?";
+            } else if (error.response?.status >= 500) {
+                errorMessage = "The AgroAI server encountered an internal error. Please try again later.";
+            }
+
+            toast.error(errorMessage);
             setMessages((prev) => [
                 ...prev,
-                { id: Date.now().toString(), role: "bot", content: "Sorry, I am having trouble connecting to the server at the moment." },
+                { id: Date.now().toString(), role: "bot", content: `⚠️ ${errorMessage}` },
             ]);
         } finally {
             setIsLoading(false);
+            abortControllerRef.current = null;
         }
     };
 
