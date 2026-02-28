@@ -10,6 +10,9 @@ import io
 from dotenv import load_dotenv
 load_dotenv()
 
+import pathlib
+BASE_DIR = pathlib.Path(__file__).resolve().parent
+
 import joblib
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
@@ -34,14 +37,14 @@ except ImportError:
     RAG_AVAILABLE = False
 
 try:
-    crop_model     = joblib.load('cropmodel.pkl')
-    fertilizer_model = joblib.load('fertilizer_model.pkl')
+    crop_model     = joblib.load(BASE_DIR / 'cropmodel.pkl')
+    fertilizer_model = joblib.load(BASE_DIR / 'fertilizer_model.pkl')
 except Exception as e:
     logger.error(f"Model load error: {e}")
     crop_model = fertilizer_model = None
 
 try:
-    data = pd.read_csv("fertilizer_recommendation.csv")
+    data = pd.read_csv(BASE_DIR / 'model_training' / 'fertilizer_recommendation.csv')
     le_soil = LabelEncoder()
     data['Soil Type'] = le_soil.fit_transform(data['Soil Type'].str.lower())
     le_crop = LabelEncoder()

@@ -230,7 +230,7 @@ export default function ChatInterface() {
             toast.error(errorMessage);
             setMessages((prev) => [
                 ...prev,
-                { id: Date.now().toString(), role: "bot", content: `⚠️ ${errorMessage}` },
+                { id: Date.now().toString(), role: "bot", content: errorMessage },
             ]);
         } finally {
             setIsLoading(false);
