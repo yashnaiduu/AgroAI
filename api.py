@@ -336,18 +336,30 @@ def _build_tts_response(text: str, language: str) -> StreamingResponse:
     from gtts import gTTS
     clean_text = re.sub(r'[*_#~`|\[\]>]', '', text)
     clean_text = re.sub(r'\s+', ' ', clean_text).strip()
+    if not clean_text:
+        raise HTTPException(status_code=400, detail="No speakable text provided.")
+
     text_to_speak = clean_text
     if language and language != "en":
         try:
             from deep_translator import GoogleTranslator
-            text_to_speak = GoogleTranslator(source='auto', target=language).translate(text)
+            text_to_speak = GoogleTranslator(source='auto', target=language).translate(clean_text)
         except Exception as e:
-            logger.error(f"TTS translation failed: {e}")
-    tts = gTTS(text=text_to_speak, lang=language, slow=False)
-    audio_stream = io.BytesIO()
-    tts.write_to_fp(audio_stream)
-    audio_stream.seek(0)
-    return StreamingResponse(audio_stream, media_type="audio/mpeg")
+            logger.warning(f"TTS translation failed, using original text: {e}")
+
+    try:
+        tts = gTTS(text=text_to_speak, lang=language, slow=False)
+        audio_stream = io.BytesIO()
+        tts.write_to_fp(audio_stream)
+        audio_stream.seek(0)
+        return StreamingResponse(
+            audio_stream,
+            media_type="audio/mpeg",
+            headers={"Cache-Control": "no-store", "Content-Disposition": "inline"}
+        )
+    except Exception as e:
+        logger.error(f"gTTS generation failed: {e}")
+        raise HTTPException(status_code=503, detail="TTS service temporarily unavailable. Please try again.")
 
 
 @app.post("/api/tts")
@@ -362,25 +374,7 @@ async def generate_tts(request: Request, req: TTSRequest):
 @app.get("/api/tts")
 @limiter.limit("20/minute")
 async def generate_tts_get(request: Request, text: str, language: str = "en"):
-    try:
-        def iterfile():
-            import re
-            from gtts import gTTS
-            clean_text = re.sub(r'[*_#~`|\[\]>]', '', text)
-            clean_text = re.sub(r'\s+', ' ', clean_text).strip()
-            text_to_speak = clean_text
-            if language and language != "en":
-                try:
-                    from deep_translator import GoogleTranslator
-                    text_to_speak = GoogleTranslator(source='auto', target=language).translate(text)
-                except Exception as e:
-                    logger.error(f"TTS translation failed: {e}")
-            tts = gTTS(text=text_to_speak, lang=language, slow=False)
-            for chunk in tts.stream():
-                yield chunk
-        return StreamingResponse(iterfile(), media_type="audio/mpeg")
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    return _build_tts_response(text, language)
 
 
 if os.path.exists("frontend/out"):

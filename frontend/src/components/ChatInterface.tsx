@@ -144,29 +144,48 @@ export default function ChatInterface() {
 
     const playTTS = async (text: string) => {
         if (isMuted) return;
+
+        const cleanText = text.replace(/[*_#~`|[\]>]/g, '').trim();
+        if (!cleanText) return;
+
+        // Try server-side gTTS first
         try {
-            const cleanText = text.replace(/\*/g, '');
             const url = `${API_URL}/api/tts?text=${encodeURIComponent(cleanText)}&language=${language}`;
 
             if (audioPlayerRef.current) {
                 audioPlayerRef.current.pause();
             }
 
-            // fetch→blob avoids cross-origin autoplay blocks and URL-length limits
-            const res = await fetch(url);
-            if (!res.ok) return;
-            const blob = await res.blob();
-            const objectUrl = URL.createObjectURL(blob);
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 8000); // 8s TTS timeout
 
+            const res = await fetch(url, { signal: controller.signal });
+            clearTimeout(timeout);
+
+            if (!res.ok) throw new Error(`TTS server returned ${res.status}`);
+
+            const blob = await res.blob();
+            if (blob.size < 100) throw new Error("Empty audio blob received");
+
+            const objectUrl = URL.createObjectURL(blob);
             const audio = new Audio(objectUrl);
             audio.playbackRate = 1.25;
             audio.preservesPitch = true;
             audio.onended = () => URL.revokeObjectURL(objectUrl);
-
             audioPlayerRef.current = audio;
-            audio.play().catch(e => console.error("Audio playback error:", e));
+            await audio.play();
+            return;
         } catch (e) {
-            console.error("TTS playback failed:", e);
+            console.warn("gTTS failed, falling back to browser speech:", e);
+        }
+
+        // Fallback: browser Web Speech API (always available, no server needed)
+        if (typeof window !== "undefined" && "speechSynthesis" in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.rate = 1.1;
+            utterance.lang = language === "en" ? "en-US" : language;
+            window.speechSynthesis.speak(utterance);
         }
     };
 
