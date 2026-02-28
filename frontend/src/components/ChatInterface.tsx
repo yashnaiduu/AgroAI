@@ -380,22 +380,7 @@ export default function ChatInterface() {
                     </div>
                 ) : (
                     <div className="max-w-3xl mx-auto w-full pt-16 pb-36 px-3 md:px-4 space-y-6 md:space-y-8">
-                        <div className="flex gap-2 w-full max-w-2xl mx-auto items-center">
-                            {isLoading && (
-                                <button
-                                    onClick={() => {
-                                        if (abortControllerRef.current) {
-                                            abortControllerRef.current.abort();
-                                            setIsLoading(false);
-                                        }
-                                    }}
-                                    className="p-3 lg:p-4 rounded-xl bg-red-500 hover:bg-red-600 text-white shadow-lg transition-transform active:scale-95"
-                                    title="Stop Generating"
-                                >
-                                    <Square className="w-5 h-5 fill-current" />
-                                </button>
-                            )}
-                        </div>
+
                         {messages.map((msg) => (
                             <motion.div
                                 key={msg.id}
