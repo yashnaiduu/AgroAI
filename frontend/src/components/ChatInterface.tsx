@@ -357,7 +357,7 @@ export default function ChatInterface() {
                             <div className="absolute inset-0 bg-green-500/20 blur-2xl rounded-full scale-110 pointer-events-none" />
                             <Image src="/logo.png" alt="AgroAI" width={120} height={120} className="w-[85%] h-[85%] object-contain drop-shadow-[0_0_12px_rgba(34,197,94,0.4)] relative z-10" priority />
                         </div>
-                        <h2 className="text-2xl md:text-4xl font-semibold mb-2 md:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-green-700 to-emerald-600 dark:from-emerald-400 dark:to-green-500 tracking-tight">AgroAI</h2>
+                        <h2 className="text-2xl md:text-4xl font-semibold mb-2 md:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500 tracking-tight">AgroAI</h2>
                         <p className="text-sm md:text-base text-muted-foreground mb-6 md:mb-8 max-w-xs md:max-w-md">Your intelligent farming assistant. Ask about crops, soil, pests, and government schemes.</p>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 w-full">
