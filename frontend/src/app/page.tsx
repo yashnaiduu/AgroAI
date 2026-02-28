@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Hexagon, Activity, Dna, SlidersHorizontal, Map as MapIcon, Menu, X } from "lucide-react";
 
@@ -35,9 +36,8 @@ export default function Home() {
             className="flex items-center gap-3 px-2 py-4 mb-4 mt-1 hover:opacity-80 transition-opacity text-left"
           >
             <div className="relative flex-shrink-0">
-              <div className="absolute inset-0 rounded-2xl bg-emerald-500/20 blur-md" />
-              <div className="relative w-12 h-12 flex items-center justify-center overflow-hidden rounded-2xl border border-emerald-500/30 shadow-[0_0_14px_3px_rgba(34,197,94,0.3)] bg-white/10">
-                <img src="/logo.png" alt="AgroAI Logo" className="w-[85%] h-[85%] object-contain" />
+              <div className="relative w-12 h-12 flex items-center justify-center overflow-hidden rounded-2xl border border-border/50 bg-white/50 dark:bg-black/20 shadow-sm backdrop-blur-xl">
+                <Image src="/logo.png" alt="AgroAI Logo" width={60} height={60} className="w-[85%] h-[85%] object-contain drop-shadow-sm" priority />
               </div>
             </div>
             <div className="flex flex-col">
@@ -105,9 +105,8 @@ export default function Home() {
                 <div className="flex items-center justify-between mb-4 mt-1">
                   <div className="flex items-center gap-2.5">
                     <div className="relative w-9 h-9 flex-shrink-0">
-                      <div className="absolute inset-0 rounded-xl bg-emerald-500/20 blur-md" />
-                      <div className="relative w-9 h-9 flex items-center justify-center overflow-hidden rounded-xl border border-emerald-500/30 bg-white/10">
-                        <img src="/logo.png" alt="AgroAI" className="w-[85%] h-[85%] object-contain" />
+                      <div className="relative w-9 h-9 flex items-center justify-center overflow-hidden rounded-xl border border-border/50 bg-white/50 dark:bg-black/20 shadow-sm backdrop-blur-xl">
+                        <Image src="/logo.png" alt="AgroAI" width={40} height={40} className="w-[85%] h-[85%] object-contain drop-shadow-sm" priority />
                       </div>
                     </div>
                     <span className="font-black text-lg bg-gradient-to-r from-emerald-300 to-teal-400 bg-clip-text text-transparent">AgroAI</span>
@@ -170,7 +169,7 @@ export default function Home() {
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-2 font-semibold text-base">
-            <img src="/logo.png" alt="AgroAI" className="w-5 h-5 object-contain" />
+            <Image src="/logo.png" alt="AgroAI" width={24} height={24} className="w-5 h-5 object-contain" priority />
             <span className="bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent font-bold">AgroAI</span>
           </div>
           <div className="ml-auto">
