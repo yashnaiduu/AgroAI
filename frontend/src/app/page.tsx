@@ -33,7 +33,7 @@ export default function Home() {
           {/* Brand */}
           <button
             onClick={() => setActiveTab("chat")}
-            className="flex items-center gap-5 px-2 py-4 mb-4 mt-1 hover:opacity-80 transition-opacity text-left"
+            className="flex items-center gap-2 px-2 py-4 mb-4 mt-1 hover:opacity-80 transition-opacity text-left"
           >
             <div className="relative flex-shrink-0">
               <div className="relative w-12 h-12 flex items-center justify-center overflow-hidden rounded-2xl border border-border/50 bg-white/50 dark:bg-black/20 shadow-sm backdrop-blur-xl">
@@ -55,7 +55,7 @@ export default function Home() {
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 active:scale-[0.98] ${isActive
                     ? "bg-muted text-foreground shadow-sm"
                     : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
                 >
@@ -74,7 +74,7 @@ export default function Home() {
             </button>
             <button
               onClick={() => setActiveTab("settings")}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "settings" ? "bg-muted text-foreground shadow-sm" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 active:scale-[0.98] ${activeTab === "settings" ? "bg-muted text-foreground shadow-sm" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
             >
               <SlidersHorizontal strokeWidth={1.5} className={`w-4 h-4 ${activeTab === "settings" ? "text-green-500" : "text-muted-foreground"}`} />
               Settings
@@ -103,7 +103,7 @@ export default function Home() {
             >
               <div className="p-4 flex flex-col h-full">
                 <div className="flex items-center justify-between mb-4 mt-1">
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1.5">
                     <div className="relative w-9 h-9 flex-shrink-0">
                       <div className="relative w-9 h-9 flex items-center justify-center overflow-hidden rounded-xl border border-border/50 bg-white/50 dark:bg-black/20 shadow-sm backdrop-blur-xl">
                         <Image src="/logo.png" alt="AgroAI" width={40} height={40} className="w-[85%] h-[85%] object-contain drop-shadow-sm" priority />
@@ -130,7 +130,7 @@ export default function Home() {
                       <button
                         key={item.id}
                         onClick={() => { setActiveTab(item.id); setIsMobileMenuOpen(false); }}
-                        className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-colors ${isActive
+                        className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 active:scale-[0.98] ${isActive
                           ? "bg-muted text-foreground shadow-sm"
                           : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
                       >
@@ -148,7 +148,7 @@ export default function Home() {
                   </button>
                   <button
                     onClick={() => { setActiveTab("settings"); setIsMobileMenuOpen(false); }}
-                    className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-colors ${activeTab === "settings" ? "bg-muted text-foreground shadow-sm" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
+                    className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 active:scale-[0.98] ${activeTab === "settings" ? "bg-muted text-foreground shadow-sm" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
                   >
                     <SlidersHorizontal strokeWidth={1.5} className="w-4 h-4" />
                     Settings

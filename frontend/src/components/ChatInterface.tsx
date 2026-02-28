@@ -352,8 +352,10 @@ export default function ChatInterface() {
             <div className="flex-1 overflow-y-auto w-full" onClick={stopAudioPlayback}>
                 {messages.length === 1 ? (
                     <div className="h-full flex flex-col items-center justify-center px-5 py-6 text-center max-w-2xl mx-auto">
-                        <div className="w-20 h-20 md:w-28 md:h-28 flex items-center justify-center mb-4 md:mb-6 relative overflow-hidden rounded-2xl md:rounded-3xl">
-                            <Image src="/logo.png" alt="AgroAI" width={120} height={120} className="w-[85%] h-[85%] object-contain drop-shadow-[0_0_12px_rgba(34,197,94,0.4)]" priority />
+                        <div className="w-20 h-20 md:w-28 md:h-28 flex items-center justify-center mb-1 md:mb-2 relative rounded-2xl md:rounded-3xl">
+                            {/* Green glow behind the plant */}
+                            <div className="absolute inset-0 bg-green-500/20 blur-2xl rounded-full scale-110 pointer-events-none" />
+                            <Image src="/logo.png" alt="AgroAI" width={120} height={120} className="w-[85%] h-[85%] object-contain drop-shadow-[0_0_12px_rgba(34,197,94,0.4)] relative z-10" priority />
                         </div>
                         <h2 className="text-2xl md:text-4xl font-semibold mb-2 md:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500 tracking-tight">AgroAI</h2>
                         <p className="text-sm md:text-base text-muted-foreground mb-6 md:mb-8 max-w-xs md:max-w-md">Your intelligent farming assistant. Ask about crops, soil, pests, and government schemes.</p>
