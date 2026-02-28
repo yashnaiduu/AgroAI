@@ -36,11 +36,14 @@ try:
 except ImportError:
     RAG_AVAILABLE = False
 
+MODEL_LOAD_ERROR = None
 try:
     crop_model     = joblib.load(BASE_DIR / 'cropmodel.pkl')
     fertilizer_model = joblib.load(BASE_DIR / 'fertilizer_model.pkl')
 except Exception as e:
-    logger.error(f"Model load error: {e}")
+    import traceback
+    MODEL_LOAD_ERROR = traceback.format_exc()
+    logger.error(f"Model load error: {MODEL_LOAD_ERROR}")
     crop_model = fertilizer_model = None
 
 try:
@@ -113,14 +116,9 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 @app.on_event("startup")
 async def warmup():
     """Pre-warm RAG embeddings so first user request is not slow."""
-    if RAG_AVAILABLE:
-        try:
-            import asyncio
-            loop = asyncio.get_event_loop()
-            await loop.run_in_executor(None, rag_query, "warmup")
-            logger.info("RAG engine warmed up successfully.")
-        except Exception as e:
-            logger.warning(f"RAG warmup skipped: {e}")
+    # Disabled because HuggingFace Space free tier times out on download,
+    # hanging the entire ASGI FastAPI deployment and blocking port 8000.
+    pass
 
 
 app.add_middleware(
@@ -229,7 +227,7 @@ def _llm_suggest(prompt: str) -> str:
 @limiter.limit("20/minute")
 async def predict_crop(request: Request, req: CropPredictRequest):
     if crop_model is None:
-        raise HTTPException(status_code=500, detail="Crop model not loaded.")
+        raise HTTPException(status_code=500, detail=f"Crop model not loaded. Error: {MODEL_LOAD_ERROR}")
     try:
         result = crop_model.predict([[req.n, req.p, req.k, req.temperature, req.humidity, req.ph, req.rainfall]])[0]
         label = result.upper()
