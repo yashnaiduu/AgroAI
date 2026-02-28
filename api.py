@@ -344,16 +344,33 @@ class TTSRequest(BaseModel):
     language: str = "en"
 
 
-def _build_tts_response(text: str, language: str) -> StreamingResponse:
+async def _build_tts_response(text: str, language: str) -> StreamingResponse:
     import re
-    from gtts import gTTS
+    # Microsoft Edge Neural Voices mapping for AgroAI's exact supported requested languages
+    voice_map = {
+        "en": "en-US-AriaNeural",
+        "hi": "hi-IN-SwaraNeural",
+        "ta": "ta-IN-PallaviNeural",
+        "te": "te-IN-ShrutiNeural",
+        "mr": "mr-IN-AarohiNeural",
+        "gu": "gu-IN-DhwaniNeural",
+        "kn": "kn-IN-SapnaNeural",
+        "bn": "bn-IN-TanishaaNeural",
+        "pa": "pa-IN-OjasNeural", 
+        "ml": "ml-IN-SobhanaNeural",
+        "ur": "ur-IN-GulNeural"
+    }
+
     clean_text = re.sub(r'[*_#~`|\[\]>]', '', text)
     clean_text = re.sub(r'\s+', ' ', clean_text).strip()
     if not clean_text:
         raise HTTPException(status_code=400, detail="No speakable text provided.")
 
+    voice = voice_map.get(language, "en-US-AriaNeural")
     text_to_speak = clean_text
-    if language and language != "en":
+
+    # Basic fallback if translation is still explicitly needed
+    if language and language not in voice_map and language != "en":
         try:
             from deep_translator import GoogleTranslator
             text_to_speak = GoogleTranslator(source='auto', target=language).translate(clean_text)
@@ -361,9 +378,15 @@ def _build_tts_response(text: str, language: str) -> StreamingResponse:
             logger.warning(f"TTS translation failed, using original text: {e}")
 
     try:
-        tts = gTTS(text=text_to_speak, lang=language, slow=False)
+        import edge_tts
+        import io
+        
+        communicate = edge_tts.Communicate(text_to_speak, voice)
         audio_stream = io.BytesIO()
-        tts.write_to_fp(audio_stream)
+        async for chunk in communicate.stream():
+            if chunk["type"] == "audio":
+                audio_stream.write(chunk["data"])
+        
         audio_stream.seek(0)
         return StreamingResponse(
             audio_stream,
@@ -371,23 +394,20 @@ def _build_tts_response(text: str, language: str) -> StreamingResponse:
             headers={"Cache-Control": "no-store", "Content-Disposition": "inline"}
         )
     except Exception as e:
-        logger.error(f"gTTS generation failed: {e}")
+        logger.error(f"edge-tts generation failed: {e}")
         raise HTTPException(status_code=503, detail="TTS service temporarily unavailable. Please try again.")
 
 
 @app.post("/api/tts")
 @limiter.limit("20/minute")
 async def generate_tts(request: Request, req: TTSRequest):
-    try:
-        return _build_tts_response(req.text, req.language)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    return await _build_tts_response(req.text, req.language)
 
 
 @app.get("/api/tts")
 @limiter.limit("20/minute")
 async def generate_tts_get(request: Request, text: str, language: str = "en"):
-    return _build_tts_response(text, language)
+    return await _build_tts_response(text, language)
 
 
 if os.path.exists("frontend/out"):

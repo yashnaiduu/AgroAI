@@ -169,7 +169,7 @@ export default function ChatInterface() {
 
             const objectUrl = URL.createObjectURL(blob);
             const audio = new Audio(objectUrl);
-            audio.playbackRate = 1.25;
+            audio.playbackRate = 1.2;
             audio.preservesPitch = true;
             audio.onended = () => URL.revokeObjectURL(objectUrl);
             audioPlayerRef.current = audio;
@@ -183,7 +183,7 @@ export default function ChatInterface() {
         if (typeof window !== "undefined" && "speechSynthesis" in window) {
             window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(cleanText);
-            utterance.rate = 1.1;
+            utterance.rate = 1.2;
             utterance.lang = language === "en" ? "en-US" : language;
             window.speechSynthesis.speak(utterance);
         }
