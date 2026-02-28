@@ -186,7 +186,7 @@ export default function ChatInterface() {
 
             const objectUrl = URL.createObjectURL(blob);
             const audio = new Audio(objectUrl);
-            audio.playbackRate = 1.1; // Slightly slower as user requested
+            audio.playbackRate = 1.0;
             audio.preservesPitch = true;
             audio.onended = () => URL.revokeObjectURL(objectUrl);
             audioPlayerRef.current = audio;
@@ -200,7 +200,7 @@ export default function ChatInterface() {
         if (typeof window !== "undefined" && "speechSynthesis" in window) {
             stopAudio();
             const utterance = new SpeechSynthesisUtterance(cleanText);
-            utterance.rate = 1.1; // Matched rate
+            utterance.rate = 1.0;
             utterance.lang = language === "en" ? "en-US" : language;
             window.speechSynthesis.speak(utterance);
         }
@@ -393,19 +393,6 @@ export default function ChatInterface() {
                                     title="Stop Generating"
                                 >
                                     <Square className="w-5 h-5 fill-current" />
-                                </button>
-                            )}
-
-                            {!isLoading && (
-                                <button
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        stopAudio();
-                                    }}
-                                    className="p-3 lg:p-4 rounded-xl bg-slate-200 dark:bg-slate-700 hover:opacity-80 text-foreground shadow-lg transition-transform active:scale-95"
-                                    title="Stop Audio"
-                                >
-                                    <VolumeX className="w-5 h-5" />
                                 </button>
                             )}
                         </div>

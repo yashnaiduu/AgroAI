@@ -348,7 +348,7 @@ async def _build_tts_response(text: str, language: str) -> StreamingResponse:
     import re
     # Microsoft Edge Neural Voices mapping for AgroAI's exact supported requested languages
     voice_map = {
-        "en": "en-US-AriaNeural",
+        "en": "en-US-ChristopherNeural",
         "hi": "hi-IN-SwaraNeural",
         "ta": "ta-IN-PallaviNeural",
         "te": "te-IN-ShrutiNeural",
@@ -366,7 +366,7 @@ async def _build_tts_response(text: str, language: str) -> StreamingResponse:
     if not clean_text:
         raise HTTPException(status_code=400, detail="No speakable text provided.")
 
-    voice = voice_map.get(language, "en-US-AriaNeural")
+    voice = voice_map.get(language, "en-US-ChristopherNeural")
     text_to_speak = clean_text
 
     # Basic fallback if translation is still explicitly needed
