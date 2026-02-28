@@ -40,9 +40,9 @@ export default function Home() {
                 <Image src="/logo.png" alt="AgroAI Logo" width={60} height={60} className="w-[85%] h-[85%] object-contain drop-shadow-sm" priority />
               </div>
             </div>
-            <div className="flex flex-col">
-              <span className="font-black text-xl tracking-wide bg-gradient-to-r from-emerald-300 via-green-400 to-teal-400 bg-clip-text text-transparent">AgroAI</span>
-              <span className="text-[9px] font-medium text-emerald-500/70 tracking-[0.2em] uppercase">Smart Farming</span>
+            <div className="flex flex-col justify-center">
+              <span className="font-extrabold text-[22px] tracking-wide text-[#2dd482] leading-none mb-0.5">AgroAI</span>
+              <span className="text-[9px] font-bold text-[#63e6a7] tracking-[0.22em] ml-0.5 uppercase leading-none">Smart Farming</span>
             </div>
           </button>
 
@@ -109,7 +109,10 @@ export default function Home() {
                         <Image src="/logo.png" alt="AgroAI" width={40} height={40} className="w-[85%] h-[85%] object-contain drop-shadow-sm" priority />
                       </div>
                     </div>
-                    <span className="font-black text-lg bg-gradient-to-r from-emerald-300 to-teal-400 bg-clip-text text-transparent">AgroAI</span>
+                    <div className="flex flex-col justify-center">
+                      <span className="font-extrabold text-[19px] tracking-wide text-[#2dd482] leading-none mb-0.5">AgroAI</span>
+                      <span className="text-[8px] font-bold text-[#63e6a7] tracking-[0.22em] ml-0.5 uppercase leading-none">Smart Farming</span>
+                    </div>
                   </div>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
