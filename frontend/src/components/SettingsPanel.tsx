@@ -26,6 +26,7 @@ export default function SettingsPanel() {
     const [dataSaver, setDataSaver] = useState(false);
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
         const savedLang = localStorage.getItem('agroai_language');
         if (savedLang) setLanguage(savedLang);
@@ -69,8 +70,8 @@ export default function SettingsPanel() {
             </div>
 
             <div className="space-y-6">
-                <div className="bg-card border border-border rounded-2xl overflow-hidden">
-                    <div className="px-6 py-4 border-b border-border bg-muted/50">
+                <div className="bg-card border border-border rounded-2xl flex flex-col relative z-20">
+                    <div className="px-6 py-4 border-b border-border bg-muted/50 rounded-t-[15px]">
                         <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
                             <SlidersHorizontal className="w-4 h-4 text-green-500" />
                             General Preferences
@@ -95,7 +96,7 @@ export default function SettingsPanel() {
                             </div>
                         </div>
 
-                        <div className="p-4 md:p-6 flex items-center justify-between hover:bg-secondary transition-colors">
+                        <div className="p-4 md:p-6 flex items-center justify-between hover:bg-secondary transition-colors relative z-50">
                             <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center shrink-0">
                                     <Globe strokeWidth={1.5} className="w-5 h-5 text-muted-foreground" />
@@ -105,7 +106,7 @@ export default function SettingsPanel() {
                                     <p className="text-sm text-muted-foreground mt-0.5">Set the primary language for AgroAI responses.</p>
                                 </div>
                             </div>
-                            <div className="w-56 z-50">
+                            <div className="w-56">
                                 <CustomSelect
                                     value={language}
                                     onChange={handleLanguageChange}
@@ -115,7 +116,7 @@ export default function SettingsPanel() {
                             </div>
                         </div>
 
-                        <div className="p-4 md:p-6 flex items-center justify-between hover:bg-secondary transition-colors cursor-pointer" onClick={handleTranslateToggle}>
+                        <div className="p-4 md:p-6 flex items-center justify-between hover:bg-secondary transition-colors cursor-pointer rounded-b-[15px]" onClick={handleTranslateToggle}>
                             <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center shrink-0">
                                     <Languages strokeWidth={1.5} className="w-5 h-5 text-muted-foreground" />
