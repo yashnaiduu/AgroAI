@@ -31,10 +31,10 @@ WORKDIR $HOME/app
 # Copy the rest of the code and models
 COPY --chown=user . $HOME/app
 
-# Download ML models from GitHub (not stored in HF Spaces repo due to binary size)
-RUN wget -q "https://github.com/yashnaiduu/AgroAI/raw/main/cropmodel.pkl" -O $HOME/app/cropmodel.pkl
-RUN wget -q "https://github.com/yashnaiduu/AgroAI/raw/main/fertilizer_model.pkl" -O $HOME/app/fertilizer_model.pkl
-RUN wget -q "https://github.com/yashnaiduu/AgroAI/raw/main/model_training/fertilizer_recommendation.csv" -O $HOME/app/model_training/fertilizer_recommendation.csv
+# Download ML models from HuggingFace Model Hub
+RUN wget -q "https://huggingface.co/yashnaiduu/agroai-models/resolve/main/cropmodel.pkl" -O $HOME/app/cropmodel.pkl
+RUN wget -q "https://huggingface.co/yashnaiduu/agroai-models/resolve/main/fertilizer_model.pkl" -O $HOME/app/fertilizer_model.pkl
+RUN mkdir -p $HOME/app/model_training && wget -q "https://huggingface.co/yashnaiduu/agroai-models/resolve/main/fertilizer_recommendation.csv" -O $HOME/app/model_training/fertilizer_recommendation.csv
 
 # Build the Next.js frontend
 WORKDIR $HOME/app/frontend
