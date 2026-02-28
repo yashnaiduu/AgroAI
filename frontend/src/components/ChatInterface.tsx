@@ -216,7 +216,7 @@ export default function ChatInterface() {
                 language: language,
                 translate_text: translateText,
             }, {
-                timeout: 15000, // 15 seconds strict timeout
+                timeout: 45000, // 45s — accommodates RAG cold-start on first request
                 signal: abortControllerRef.current.signal
             });
 
