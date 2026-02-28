@@ -286,7 +286,7 @@ export default function ChatInterface() {
                 {messages.length === 1 ? (
                     <div className="h-full flex flex-col items-center justify-center px-5 py-6 text-center max-w-2xl mx-auto">
                         <div className="w-20 h-20 md:w-28 md:h-28 flex items-center justify-center mb-4 md:mb-6 relative overflow-hidden rounded-2xl md:rounded-3xl">
-                            <img src="/logo.svg" alt="AgroAI" className="w-full h-full object-contain drop-shadow-[0_0_12px_rgba(34,197,94,0.4)]" />
+                            <img src="/logo.png" alt="AgroAI" className="w-[85%] h-[85%] object-contain drop-shadow-[0_0_12px_rgba(34,197,94,0.4)]" />
                         </div>
                         <h2 className="text-2xl md:text-4xl font-semibold mb-2 md:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500 tracking-tight">AgroAI</h2>
                         <p className="text-sm md:text-base text-muted-foreground mb-6 md:mb-8 max-w-xs md:max-w-md">Your intelligent farming assistant. Ask about crops, soil, pests, and government schemes.</p>
@@ -325,7 +325,7 @@ export default function ChatInterface() {
                                 >
                                     {msg.role === "user" ? <User className="w-5 h-5 text-foreground" /> : (
                                         <>
-                                            <img src="/logo.svg" alt="AI" className="absolute inset-0 w-full h-full object-contain drop-shadow-[0_0_5px_rgba(34,197,94,0.5)] scale-125" />
+                                            <img src="/logo.png" alt="AI" className="absolute inset-0 w-[85%] h-[85%] m-auto object-contain drop-shadow-[0_0_5px_rgba(34,197,94,0.5)] scale-125" />
                                         </>
                                     )}
                                 </div>
@@ -374,7 +374,7 @@ export default function ChatInterface() {
                         {isLoading && (
                             <div className="flex gap-4">
                                 <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center relative overflow-hidden">
-                                    <img src="/logo.svg" alt="AI" className="w-full h-full object-contain drop-shadow-[0_0_5px_rgba(34,197,94,0.5)] animate-pulse scale-125" />
+                                    <img src="/logo.png" alt="AI" className="w-[85%] h-[85%] object-contain drop-shadow-[0_0_5px_rgba(34,197,94,0.5)] animate-pulse scale-125" />
                                 </div>
                                 <div className="text-muted-foreground px-2 py-3.5 flex items-center gap-2">
                                     <div className="flex gap-1">

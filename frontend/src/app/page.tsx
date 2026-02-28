@@ -36,8 +36,8 @@ export default function Home() {
           >
             <div className="relative flex-shrink-0">
               <div className="absolute inset-0 rounded-2xl bg-emerald-500/20 blur-md" />
-              <div className="relative w-12 h-12 flex items-center justify-center overflow-hidden rounded-2xl border border-emerald-500/30 shadow-[0_0_14px_3px_rgba(34,197,94,0.3)]">
-                <img src="/logo.svg" alt="AgroAI Logo" className="w-full h-full object-contain" />
+              <div className="relative w-12 h-12 flex items-center justify-center overflow-hidden rounded-2xl border border-emerald-500/30 shadow-[0_0_14px_3px_rgba(34,197,94,0.3)] bg-white/10">
+                <img src="/logo.png" alt="AgroAI Logo" className="w-[85%] h-[85%] object-contain" />
               </div>
             </div>
             <div className="flex flex-col">
@@ -106,8 +106,8 @@ export default function Home() {
                   <div className="flex items-center gap-2.5">
                     <div className="relative w-9 h-9 flex-shrink-0">
                       <div className="absolute inset-0 rounded-xl bg-emerald-500/20 blur-md" />
-                      <div className="relative w-9 h-9 flex items-center justify-center overflow-hidden rounded-xl border border-emerald-500/30">
-                        <img src="/logo.svg" alt="AgroAI" className="w-full h-full object-contain" />
+                      <div className="relative w-9 h-9 flex items-center justify-center overflow-hidden rounded-xl border border-emerald-500/30 bg-white/10">
+                        <img src="/logo.png" alt="AgroAI" className="w-[85%] h-[85%] object-contain" />
                       </div>
                     </div>
                     <span className="font-black text-lg bg-gradient-to-r from-emerald-300 to-teal-400 bg-clip-text text-transparent">AgroAI</span>
@@ -170,7 +170,7 @@ export default function Home() {
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-2 font-semibold text-base">
-            <img src="/logo.svg" alt="AgroAI" className="w-5 h-5 object-contain" />
+            <img src="/logo.png" alt="AgroAI" className="w-5 h-5 object-contain" />
             <span className="bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent font-bold">AgroAI</span>
           </div>
           <div className="ml-auto">
