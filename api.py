@@ -110,6 +110,19 @@ app = FastAPI(title="AgroAI API")
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
+@app.on_event("startup")
+async def warmup():
+    """Pre-warm RAG embeddings so first user request is not slow."""
+    if RAG_AVAILABLE:
+        try:
+            import asyncio
+            loop = asyncio.get_event_loop()
+            await loop.run_in_executor(None, rag_query, "warmup")
+            logger.info("RAG engine warmed up successfully.")
+        except Exception as e:
+            logger.warning(f"RAG warmup skipped: {e}")
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
