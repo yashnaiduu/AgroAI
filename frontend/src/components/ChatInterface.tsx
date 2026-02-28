@@ -225,11 +225,14 @@ export default function ChatInterface() {
                     <button
                         type="button"
                         onClick={() => setLangOpen(prev => !prev)}
-                        className="flex items-center gap-1.5 bg-muted border border-border rounded-full pl-3 pr-2.5 py-1.5 text-sm text-foreground transition-colors hover:border-border/80"
+                        className="flex items-center gap-1.5 bg-muted border border-border rounded-full pl-2.5 pr-2 py-1.5 text-sm text-foreground transition-colors hover:border-border/80"
                     >
                         <Globe className="w-3.5 h-3.5 text-green-400 flex-shrink-0" />
-                        <span className="text-sm">
+                        <span className="hidden sm:inline text-sm">
                             {LANGUAGES.find(l => l.code === language)?.label ?? "English"}
+                        </span>
+                        <span className="sm:hidden text-xs font-mono text-muted-foreground">
+                            {language.toUpperCase()}
                         </span>
                         <ChevronDown className={`w-3.5 h-3.5 text-muted-foreground transition-transform duration-200 ${langOpen ? "rotate-180" : ""}`} />
                     </button>
@@ -281,14 +284,14 @@ export default function ChatInterface() {
 
             <div className="flex-1 overflow-y-auto w-full" onClick={stopAudioPlayback}>
                 {messages.length === 1 ? (
-                    <div className="h-full flex flex-col items-center justify-center p-8 text-center max-w-2xl mx-auto mt-[-5vh]">
-                        <div className="w-28 h-28 flex items-center justify-center mb-6 relative overflow-hidden rounded-3xl">
-                            <img src="/logo.svg" alt="AgroAI" className="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(34,197,94,0.4)] scale-110" />
+                    <div className="h-full flex flex-col items-center justify-center px-5 py-6 text-center max-w-2xl mx-auto">
+                        <div className="w-20 h-20 md:w-28 md:h-28 flex items-center justify-center mb-4 md:mb-6 relative overflow-hidden rounded-2xl md:rounded-3xl">
+                            <img src="/logo.svg" alt="AgroAI" className="w-full h-full object-contain drop-shadow-[0_0_12px_rgba(34,197,94,0.4)]" />
                         </div>
-                        <h2 className="text-4xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500 tracking-tight">AgroAI</h2>
-                        <p className="text-muted-foreground mb-8 max-w-md">I am AgroAI, your intelligent farming assistant. I can answer questions about crops, soil, pests, and government schemes.</p>
+                        <h2 className="text-2xl md:text-4xl font-semibold mb-2 md:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500 tracking-tight">AgroAI</h2>
+                        <p className="text-sm md:text-base text-muted-foreground mb-6 md:mb-8 max-w-xs md:max-w-md">Your intelligent farming assistant. Ask about crops, soil, pests, and government schemes.</p>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 w-full">
                             {[
                                 "What is organic farming?",
                                 "Benefits of drip irrigation?",
@@ -301,7 +304,7 @@ export default function ChatInterface() {
                                         setInput(q);
                                         setTimeout(() => handleSend(q), 50);
                                     }}
-                                    className="text-left p-4 rounded-xl text-sm text-foreground bg-secondary hover:bg-muted border border-border transition-colors"
+                                    className="text-left p-3 md:p-4 rounded-xl text-sm text-foreground bg-secondary hover:bg-muted border border-border transition-colors leading-snug"
                                 >
                                     {q}
                                 </button>
@@ -309,7 +312,7 @@ export default function ChatInterface() {
                         </div>
                     </div>
                 ) : (
-                    <div className="max-w-3xl mx-auto w-full pt-20 pb-40 px-4 space-y-8">
+                    <div className="max-w-3xl mx-auto w-full pt-16 pb-36 px-3 md:px-4 space-y-6 md:space-y-8">
                         {messages.map((msg) => (
                             <motion.div
                                 key={msg.id}
@@ -326,8 +329,8 @@ export default function ChatInterface() {
                                         </>
                                     )}
                                 </div>
-                                <div className={`flex flex-col ${msg.role === "user" ? "items-end max-w-[75%]" : "items-start max-w-[85%]"}`}>
-                                    <div className={`px-5 py-3.5 text-[17px] leading-relaxed rounded-2xl ${msg.role === "user"
+                                <div className={`flex flex-col ${msg.role === "user" ? "items-end max-w-[82%]" : "items-start max-w-[90%]"}`}>
+                                    <div className={`px-3.5 md:px-5 py-3 md:py-3.5 text-[15px] md:text-[17px] leading-relaxed rounded-2xl ${msg.role === "user"
                                         ? "bg-secondary text-foreground"
                                         : "bg-transparent text-foreground"
                                         }`}

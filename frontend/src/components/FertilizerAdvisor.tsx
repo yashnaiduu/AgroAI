@@ -72,22 +72,22 @@ export default function FertilizerAdvisor() {
     };
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-in fade-in duration-500">
-            <div className="glass-panel p-8 rounded-3xl relative overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 animate-in fade-in duration-500">
+            <div className="glass-panel p-4 md:p-8 rounded-2xl md:rounded-3xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
 
-                <div className="flex items-center gap-3 mb-8">
-                    <div className="p-3 bg-teal-500/20 rounded-xl">
-                        <FlaskConical className="w-6 h-6 text-teal-400" />
+                <div className="flex items-center gap-2.5 mb-5 md:mb-8">
+                    <div className="p-2 md:p-3 bg-teal-500/20 rounded-xl">
+                        <FlaskConical className="w-5 h-5 text-teal-400" />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-bold">Fertilizer Advisor</h2>
-                        <p className="text-sm text-muted-foreground">Match your soil and crop for precision nutrition</p>
+                        <h2 className="text-lg md:text-2xl font-bold">Fertilizer Advisor</h2>
+                        <p className="text-xs text-muted-foreground hidden sm:block">Match your soil and crop for precision nutrition</p>
                     </div>
                 </div>
 
-                <div className="space-y-6 relative z-10">
-                    <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-4 md:space-y-6 relative z-10">
+                    <div className="grid grid-cols-2 gap-3 md:gap-4">
                         <div>
                             <label className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
                                 <MapPin className="w-4 h-4 text-muted-foreground" /> Soil Type
@@ -112,7 +112,7 @@ export default function FertilizerAdvisor() {
                         </div>
                     </div>
 
-                    <div className="space-y-5">
+                    <div className="space-y-4 md:space-y-5">
                         <div>
                             <div className="flex justify-between items-end mb-2">
                                 <label className="text-sm font-medium text-muted-foreground">Soil Moisture (%)</label>
@@ -156,7 +156,7 @@ export default function FertilizerAdvisor() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4 pt-2">
+                    <div className="grid grid-cols-3 gap-2 md:gap-4 pt-2">
                         {(['n', 'p', 'k'] as const).map((nutrient) => (
                             <div key={nutrient}>
                                 <label className="block text-xs font-bold text-muted-foreground uppercase mb-1">{nutrient} Level</label>
@@ -175,7 +175,7 @@ export default function FertilizerAdvisor() {
                     <button
                         onClick={handlePredict}
                         disabled={isLoading}
-                        className="w-full mt-6 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-foreground font-bold py-4 px-8 rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_-5px_rgba(20,184,166,0.4)] disabled:opacity-50"
+                        className="w-full mt-4 md:mt-6 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-foreground font-bold py-3 md:py-4 px-8 rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_-5px_rgba(20,184,166,0.4)] disabled:opacity-50"
                     >
                         {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <FlaskConical className="w-5 h-5" />}
                         {isLoading ? "Running ML Analysis..." : "Recommend Fertilizer"}
@@ -183,21 +183,21 @@ export default function FertilizerAdvisor() {
                 </div>
             </div>
 
-            <div className="relative">
+            <div className="relative mt-4 lg:mt-0">
                 <AnimatePresence mode="wait">
                     {result ? (
                         <motion.div
                             key="result"
                             initial={{ opacity: 0, scale: 0.9, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
-                            className="glass-panel p-8 rounded-3xl h-full flex flex-col justify-center items-center text-center border-teal-500/30 shadow-[0_0_50px_-15px_rgba(20,184,166,0.2)] bg-gradient-to-br from-background to-secondary/30"
+                            className="glass-panel p-6 md:p-8 rounded-2xl md:rounded-3xl h-full flex flex-col justify-center items-center text-center border-teal-500/30 shadow-[0_0_50px_-15px_rgba(20,184,166,0.2)] bg-gradient-to-br from-background to-secondary/30"
                         >
-                            <div className="w-24 h-24 bg-teal-500/20 rounded-full flex items-center justify-center mb-6 border border-teal-500/40 relative">
+                            <div className="w-16 h-16 md:w-24 md:h-24 bg-teal-500/20 rounded-full flex items-center justify-center mb-4 md:mb-6 border border-teal-500/40 relative">
                                 <div className="absolute inset-0 rounded-full bg-teal-400 blur-xl opacity-20 animate-pulse"></div>
                                 <FlaskConical className="w-12 h-12 text-teal-400 relative z-10" />
                             </div>
-                            <h3 className="text-xl text-muted-foreground font-medium mb-2">Recommended Fertilizer</h3>
-                            <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-500 mb-6 drop-shadow-sm uppercase">
+                            <h3 className="text-base md:text-xl text-muted-foreground font-medium mb-2">Recommended Fertilizer</h3>
+                            <div className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-500 mb-4 md:mb-6 drop-shadow-sm uppercase">
                                 {result.prediction.replace('✅ ', '')}
                             </div>
                             <p className="text-muted-foreground leading-relaxed max-w-sm">{result.tip}</p>
@@ -215,7 +215,7 @@ export default function FertilizerAdvisor() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="glass-panel p-8 rounded-3xl h-full flex flex-col justify-center items-center text-center opacity-50 bg-background/50"
+                            className="glass-panel p-6 md:p-8 rounded-2xl md:rounded-3xl h-full flex flex-col justify-center items-center text-center opacity-50 bg-background/50"
                         >
                             <div className="w-20 h-20 border-2 border-dashed border-border rounded-full flex items-center justify-center mb-6">
                                 <FlaskConical className="w-8 h-8 text-muted-foreground/50" />
