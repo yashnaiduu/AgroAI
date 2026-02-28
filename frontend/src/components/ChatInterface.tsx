@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { motion } from "framer-motion";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Send, User, Loader2, Mic, MicOff, Volume2, VolumeX, Globe, Check, ChevronDown } from "lucide-react";
+import { Send, User, Loader2, Mic, MicOff, Volume2, VolumeX, Globe, Check, ChevronDown, Square } from "lucide-react";
 import toast from "react-hot-toast";
 import { API_URL } from "@/lib/config";
 import { LANGUAGES } from "@/components/SettingsPanel";
@@ -56,6 +56,25 @@ export default function ChatInterface() {
     const audioChunksRef = useRef<Blob[]>([]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
+
+    // Stop all audio playback instantly
+    const stopAudio = useCallback(() => {
+        if (audioPlayerRef.current) {
+            audioPlayerRef.current.pause();
+            audioPlayerRef.current.currentTime = 0;
+            audioPlayerRef.current = null; // Reset the ref after stopping
+        }
+        if (typeof window !== "undefined" && "speechSynthesis" in window) {
+            window.speechSynthesis.cancel();
+        }
+    }, []); // No dependencies needed as it only accesses refs and window.speechSynthesis
+
+    // Watch for mute changes to stop currently playing audio
+    useEffect(() => {
+        if (isMuted) {
+            stopAudio();
+        }
+    }, [isMuted, stopAudio]);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -148,13 +167,11 @@ export default function ChatInterface() {
         const cleanText = text.replace(/[*_#~`|[\]>]/g, '').trim();
         if (!cleanText) return;
 
-        // Try server-side gTTS first
+        // Try server-side edge-tts first
         try {
             const url = `${API_URL}/api/tts?text=${encodeURIComponent(cleanText)}&language=${language}`;
 
-            if (audioPlayerRef.current) {
-                audioPlayerRef.current.pause();
-            }
+            stopAudio(); // Stop any existing audio before starting new
 
             const controller = new AbortController();
             const timeout = setTimeout(() => controller.abort(), 8000); // 8s TTS timeout
@@ -169,21 +186,21 @@ export default function ChatInterface() {
 
             const objectUrl = URL.createObjectURL(blob);
             const audio = new Audio(objectUrl);
-            audio.playbackRate = 1.2;
+            audio.playbackRate = 1.1; // Slightly slower as user requested
             audio.preservesPitch = true;
             audio.onended = () => URL.revokeObjectURL(objectUrl);
             audioPlayerRef.current = audio;
             await audio.play();
-            return;
+            return; // EXIT HERE so it doesn't fall through to fallback
         } catch (e) {
-            console.warn("gTTS failed, falling back to browser speech:", e);
+            console.warn("edge-tts failed, falling back to browser speech:", e);
         }
 
         // Fallback: browser Web Speech API (always available, no server needed)
         if (typeof window !== "undefined" && "speechSynthesis" in window) {
-            window.speechSynthesis.cancel();
+            stopAudio();
             const utterance = new SpeechSynthesisUtterance(cleanText);
-            utterance.rate = 1.2;
+            utterance.rate = 1.1; // Matched rate
             utterance.lang = language === "en" ? "en-US" : language;
             window.speechSynthesis.speak(utterance);
         }
@@ -193,9 +210,7 @@ export default function ChatInterface() {
         const textToSend = overrideInput || input;
         if (!textToSend.trim() || isLoading) return;
 
-        if (audioPlayerRef.current) {
-            audioPlayerRef.current.pause();
-        }
+        stopAudio();
 
         // Cancel any existing request
         if (abortControllerRef.current) {
@@ -365,6 +380,35 @@ export default function ChatInterface() {
                     </div>
                 ) : (
                     <div className="max-w-3xl mx-auto w-full pt-16 pb-36 px-3 md:px-4 space-y-6 md:space-y-8">
+                        <div className="flex gap-2 w-full max-w-2xl mx-auto items-center">
+                            {isLoading && (
+                                <button
+                                    onClick={() => {
+                                        if (abortControllerRef.current) {
+                                            abortControllerRef.current.abort();
+                                            setIsLoading(false);
+                                        }
+                                    }}
+                                    className="p-3 lg:p-4 rounded-xl bg-red-500 hover:bg-red-600 text-white shadow-lg transition-transform active:scale-95"
+                                    title="Stop Generating"
+                                >
+                                    <Square className="w-5 h-5 fill-current" />
+                                </button>
+                            )}
+
+                            {!isLoading && (
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        stopAudio();
+                                    }}
+                                    className="p-3 lg:p-4 rounded-xl bg-slate-200 dark:bg-slate-700 hover:opacity-80 text-foreground shadow-lg transition-transform active:scale-95"
+                                    title="Stop Audio"
+                                >
+                                    <VolumeX className="w-5 h-5" />
+                                </button>
+                            )}
+                        </div>
                         {messages.map((msg) => (
                             <motion.div
                                 key={msg.id}
